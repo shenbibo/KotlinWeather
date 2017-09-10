@@ -11,7 +11,8 @@ import java.net.URL
  * Created by sky on 2017/9/7.
  */
 
-data class CityWeatherList(val cityName: String,
+data class CityWeatherList(val id: String,
+                           val cityName: String,
                            val dailyWeather: List<DailyWeather>)
 
 class WeatherRequest(private val cityName: String) : Command<DailyWeatherResponse> {
@@ -33,7 +34,8 @@ class GetCityWeatherCommand(private val cityName: String) : Command<CityWeatherL
     }
 
     private fun covertToCityWeather(response: DailyWeatherResponse): CityWeatherList {
-        val weather = response.HeWeather5[0]
-        return CityWeatherList(weather.basic.city, weather.daily_forecast)
+        with(response.HeWeather5[0]){
+            return CityWeatherList(basic.id, basic.city, daily_forecast)
+        }
     }
 }
