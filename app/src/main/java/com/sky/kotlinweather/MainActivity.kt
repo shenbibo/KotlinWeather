@@ -4,7 +4,6 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import com.sky.kotlinweather.domain.GetCityWeatherCommand
-import com.sky.kotlinweather.domain.RequestCityCommand
 import com.sky.slog.LogcatTree
 import com.sky.slog.Slog
 import kotlinx.android.synthetic.main.activity_main.*
@@ -21,12 +20,18 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         cityWeatherList.layoutManager = LinearLayoutManager(this)
 
-        requestCityWeather()
+        initListener()
     }
 
-    private fun requestCityWeather() {
+    private fun initListener() {
+        searchButton.setOnClickListener{
+            requestCityWeather(searchTextView.text.toString())
+        }
+    }
+
+    private fun requestCityWeather(name : String) {
         doAsync {
-            val weatherList = GetCityWeatherCommand("深圳").execute()
+            val weatherList = GetCityWeatherCommand(name).execute()
             uiThread {
                 cityWeatherList.adapter = WeatherListAdapter(weatherList.dailyWeather){
                     toast(it.date.text.toString())
@@ -48,18 +53,4 @@ class MainActivity : AppCompatActivity() {
 //            }
 //        }
 //    }
-
-
-    /**
-     * 所谓不可变，只是说它自己，但是它其中的字段对象的属性是否可变取决于字段对象本身
-     * */
-    private fun testImmutableList() {
-        val studentList = listOf(Student("sky", 28), Student("gavin", 27))
-        studentList.forEach { it.name += "123" }
-        studentList.forEach { Slog.i(it) }
-    }
-
-    data class Student(var name: String, var age: Int)
-
-    data class Person(val student: Student)
 }
