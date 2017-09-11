@@ -38,8 +38,8 @@ class WeatherListAdapter(private val items: List<DayWeather>, private val itemCl
                 itemView.date.text = date
                 itemView.daytimeWeather.text = desDaytime
                 itemView.nightWeather.text = desNight
-                itemView.maxTemperature.text = "${maxTmp}º"
-                itemView.minTemperature.text = "${minTmp}º"
+                itemView.maxTemperature.text = "$maxTmpº"
+                itemView.minTemperature.text = "$minTmpº"
                 itemView.setOnClickListener { itemClick(it) }
                 val daytimeIconUrl = WeatherIcon.ICON_URL[desDaytime]
                 val nightIconUrl = WeatherIcon.ICON_URL[desNight]

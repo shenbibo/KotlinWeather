@@ -16,11 +16,12 @@ import java.net.URL
 
 data class CityWeatherList(val id: String,
                            val cityName: String,
-                           val dailyWeather: List<DayWeather>) {
+                           val country: String,
+                           val dayWeather: List<DayWeather>) {
     val size: Int
-        get() = dailyWeather.size
+        get() = dayWeather.size
 
-    operator fun get(position: Int) = dailyWeather[position]
+    operator fun get(position: Int) = dayWeather[position]
 }
 
 data class DayWeather(val date: String,
@@ -31,7 +32,7 @@ data class DayWeather(val date: String,
 
 class WeatherRequest(private val cityName: String) : Command<DailyWeatherResponse> {
     override fun execute(): DailyWeatherResponse {
-        val jsonCityWeather = URL("${BASE_URL_FREE}$METHOD?city=$cityName&key=${KEY}").readText()
+        val jsonCityWeather = URL("$BASE_URL_FREE$METHOD?city=$cityName&key=$KEY").readText()
         Slog.json(jsonCityWeather)
         return Gson().fromJson(jsonCityWeather, DailyWeatherResponse::class.java)
     }
@@ -49,7 +50,7 @@ class GetCityWeatherCommand(private val cityName: String) : Command<CityWeatherL
 
     private fun covertToCityWeather(response: DailyWeatherResponse): CityWeatherList =
             with(response.HeWeather5[0]) {
-                CityWeatherList(basic.id, basic.city, covertToDayWeather(daily_forecast))
+                CityWeatherList(basic.id, basic.city, basic.cnty, covertToDayWeather(daily_forecast))
             }
 
 

@@ -15,7 +15,7 @@ class WeatherDbHelper(ctx: Context = App.instance)
     companion object {
         val DB_NAME = "weather.db"
         val VERSION = 1
-        val instance: WeatherDbHelper? by lazy { WeatherDbHelper() }
+        val instance by lazy { WeatherDbHelper() }
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
@@ -33,9 +33,7 @@ class WeatherDbHelper(ctx: Context = App.instance)
         db?.createTable(CityInfoTable.NAME, true,
                         CityInfoTable.ID to TEXT + PRIMARY_KEY,
                         CityInfoTable.CITY_NAME to TEXT,
-                        CityInfoTable.COUNTRY to TEXT,
-                        CityInfoTable.LAT to TEXT,
-                        CityInfoTable.LON to TEXT)
+                        CityInfoTable.COUNTRY to TEXT)
     }
 
     private fun createDayWeatherTableIfNotExist(db: SQLiteDatabase?) {
@@ -56,16 +54,14 @@ object CityInfoTable {
     val ID = "id"
     val CITY_NAME = "cityName"
     val COUNTRY = "country"
-    val LON = "lon"  // 经度
-    val LAT = "lat"  // 纬度
 }
 
 object DayWeatherTable {
     val NAME = "DayWeather"
     val ID = "id"
     val DATE = "date"
-    val HIGH = "high"
-    val LOW = "low"
+    val HIGH = "maxTmp"
+    val LOW = "minTmp"
     val DES_DAYTIME = "desDaytime" // 白天天气描述
     val DES_NIGHT = "desNight"     // 夜晚天气描述
     val CITY_ID = "cityId"

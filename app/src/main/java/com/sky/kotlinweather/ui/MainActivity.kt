@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         doAsync {
             val weatherList = GetCityWeatherCommand(name).execute()
             uiThread {
-                cityWeatherList.adapter = WeatherListAdapter(weatherList.dailyWeather) {
+                cityWeatherList.adapter = WeatherListAdapter(weatherList.dayWeather) {
                     toast(it.date.text.toString())
                 }
                 cityWeatherList.adapter.notifyDataSetChanged()
