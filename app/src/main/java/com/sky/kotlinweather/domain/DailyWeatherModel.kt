@@ -13,7 +13,18 @@ import java.net.URL
 
 data class CityWeatherList(val id: String,
                            val cityName: String,
-                           val dailyWeather: List<DailyWeather>)
+                           val dailyWeather: List<DayWeather>) {
+    val size: Int
+        get() = dailyWeather.size
+
+    operator fun get(position: Int) = dailyWeather[position]
+}
+
+data class DayWeather(val date: String,
+                      val maxTmp: Int,
+                      val minTmp: Int,
+                      val desDaytime: String,
+                      val desNight: String)
 
 class WeatherRequest(private val cityName: String) : Command<DailyWeatherResponse> {
     override fun execute(): DailyWeatherResponse {
@@ -23,7 +34,7 @@ class WeatherRequest(private val cityName: String) : Command<DailyWeatherRespons
     }
 
     companion object {
-        val METHOD = "forecast"
+        private val METHOD = "forecast"
     }
 }
 
@@ -33,9 +44,17 @@ class GetCityWeatherCommand(private val cityName: String) : Command<CityWeatherL
         return covertToCityWeather(dailyWeatherResponse)
     }
 
-    private fun covertToCityWeather(response: DailyWeatherResponse): CityWeatherList {
-        with(response.HeWeather5[0]){
-            return CityWeatherList(basic.id, basic.city, daily_forecast)
-        }
-    }
+    private fun covertToCityWeather(response: DailyWeatherResponse): CityWeatherList =
+            with(response.HeWeather5[0]) {
+                CityWeatherList(basic.id, basic.city, covertToDayWeather(daily_forecast))
+            }
+
+
+    private fun covertToDayWeather(dailyForecastList: List<DailyWeather>): List<DayWeather> =
+            dailyForecastList.map {
+                with(it) {
+                    DayWeather(date, tmp.max, tmp.min, cond.txt_d, cond.txt_n)
+                }
+            }
+
 }

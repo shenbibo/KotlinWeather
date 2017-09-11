@@ -4,8 +4,8 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.sky.kotlinweather.data.DailyWeather
 import com.sky.kotlinweather.data.WeatherIcon
+import com.sky.kotlinweather.domain.DayWeather
 import com.sky.kotlinweather.domain.ctx
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.city_weather_item.view.*
@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.city_weather_item.view.*
  * Created by sky on 2017/9/6.
  */
 
-class WeatherListAdapter(private val items: List<DailyWeather>, private val itemClick: (View) -> Unit)
+class WeatherListAdapter(private val items: List<DayWeather>, private val itemClick: (View) -> Unit)
     : RecyclerView.Adapter<WeatherListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -32,21 +32,21 @@ class WeatherListAdapter(private val items: List<DailyWeather>, private val item
 
     class ViewHolder(view: View, private val itemClick: (View) -> Unit) : RecyclerView.ViewHolder(view) {
 
-        fun bindDataToView(cityWeather: DailyWeather) {
+        fun bindDataToView(cityWeather: DayWeather) {
             with(cityWeather) {
                 itemView.date.text = date
-                itemView.daytimeWeather.text = cond.txt_d
-                itemView.nightWeather.text = cond.txt_n
-                itemView.maxTemperature.text = "${tmp.max}º"
-                itemView.minTemperature.text = "${tmp.min}º"
+                itemView.daytimeWeather.text = desDaytime
+                itemView.nightWeather.text = desNight
+                itemView.maxTemperature.text = "${maxTmp}º"
+                itemView.minTemperature.text = "${minTmp}º"
                 itemView.setOnClickListener { itemClick(it) }
-                val daytimeIconUrl = WeatherIcon.ICON_URL[cond.txt_d]
-                val nightIconUrl = WeatherIcon.ICON_URL[cond.txt_n]
-                if(daytimeIconUrl != null){
+                val daytimeIconUrl = WeatherIcon.ICON_URL[desDaytime]
+                val nightIconUrl = WeatherIcon.ICON_URL[desNight]
+                if (daytimeIconUrl != null) {
                     Picasso.with(itemView.ctx).load(daytimeIconUrl).into(itemView.daytimeIcon)
                 }
 
-                if(nightIconUrl != null){
+                if (nightIconUrl != null) {
                     Picasso.with(itemView.ctx).load(nightIconUrl).into(itemView.nightIcon)
                 }
             }
