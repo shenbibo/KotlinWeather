@@ -1,10 +1,12 @@
 package com.sky.kotlinweather.domain
 
 import com.google.gson.Gson
-import com.sky.kotlinweather.data.*
+import com.sky.kotlinweather.data.server.BASE_URL
+import com.sky.kotlinweather.data.server.KEY
+import com.sky.kotlinweather.data.server.SearchCityResponse
 import com.sky.slog.Slog
 import java.net.URL
-import com.sky.kotlinweather.data.CityInfo as ResponseCityInfo
+import com.sky.kotlinweather.data.server.CityInfo as ResponseCityInfo
 /**
  * 一句话描述类的作用
  * 详述类的功能。
@@ -18,7 +20,7 @@ data class City(val name: String,
 
 class CityRequest(private val cityName: String) : Command<SearchCityResponse> {
     override fun execute(): SearchCityResponse {
-        val jsonCityInfo = URL("$BASE_URL$METHOD?&city=$cityName&key=$KEY").readText()
+        val jsonCityInfo = URL("${BASE_URL}$METHOD?&city=$cityName&key=${KEY}").readText()
         Slog.json(jsonCityInfo)
         return Gson().fromJson(jsonCityInfo, SearchCityResponse::class.java)
     }

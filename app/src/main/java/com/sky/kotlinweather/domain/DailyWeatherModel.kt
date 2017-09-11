@@ -1,7 +1,10 @@
 package com.sky.kotlinweather.domain
 
 import com.google.gson.Gson
-import com.sky.kotlinweather.data.*
+import com.sky.kotlinweather.data.server.BASE_URL_FREE
+import com.sky.kotlinweather.data.server.DailyWeather
+import com.sky.kotlinweather.data.server.DailyWeatherResponse
+import com.sky.kotlinweather.data.server.KEY
 import com.sky.slog.Slog
 import java.net.URL
 
@@ -28,7 +31,7 @@ data class DayWeather(val date: String,
 
 class WeatherRequest(private val cityName: String) : Command<DailyWeatherResponse> {
     override fun execute(): DailyWeatherResponse {
-        val jsonCityWeather = URL("$BASE_URL_FREE$METHOD?city=$cityName&key=$KEY").readText()
+        val jsonCityWeather = URL("${BASE_URL_FREE}$METHOD?city=$cityName&key=${KEY}").readText()
         Slog.json(jsonCityWeather)
         return Gson().fromJson(jsonCityWeather, DailyWeatherResponse::class.java)
     }

@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="70dp"
     android:padding="8dp"
-    tools:context="com.sky.kotlinweather.MainActivity">
+    tools:context="com.sky.kotlinweather.ui.MainActivity">
 
     <LinearLayout
         android:id="@+id/cityInfo"

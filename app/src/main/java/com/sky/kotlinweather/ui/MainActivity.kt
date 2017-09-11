@@ -1,8 +1,9 @@
-package com.sky.kotlinweather
+package com.sky.kotlinweather.ui
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import com.sky.kotlinweather.R
 import com.sky.kotlinweather.domain.GetCityWeatherCommand
 import com.sky.slog.LogcatTree
 import com.sky.slog.Slog
@@ -33,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         doAsync {
             val weatherList = GetCityWeatherCommand(name).execute()
             uiThread {
-                cityWeatherList.adapter = WeatherListAdapter(weatherList.dailyWeather){
+                cityWeatherList.adapter = WeatherListAdapter(weatherList.dailyWeather) {
                     toast(it.date.text.toString())
                 }
                 cityWeatherList.adapter.notifyDataSetChanged()

@@ -1,4 +1,4 @@
-package com.sky.kotlinweather.data
+package com.sky.kotlinweather.data.server
 
 /**
  * 一句话描述类的作用
@@ -27,5 +27,5 @@ data class WeatherStatus(val txt_d: String,
                          val txt_n: String)
 
 data class DailyWeather(val date: String,
-                      val cond: WeatherStatus,
-                      val tmp: Temperature)
+                        val cond: WeatherStatus,
+                        val tmp: Temperature)

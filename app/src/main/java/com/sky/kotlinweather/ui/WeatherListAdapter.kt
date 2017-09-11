@@ -1,12 +1,13 @@
-package com.sky.kotlinweather
+package com.sky.kotlinweather.ui
 
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.sky.kotlinweather.R
 import com.sky.kotlinweather.data.WeatherIcon
 import com.sky.kotlinweather.domain.DayWeather
-import com.sky.kotlinweather.domain.ctx
+import com.sky.kotlinweather.extensions.ctx
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.city_weather_item.view.*
 

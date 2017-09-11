@@ -1,4 +1,4 @@
-package com.sky.kotlinweather.data
+package com.sky.kotlinweather.data.server
 
 /**
  * 一句话描述类的作用

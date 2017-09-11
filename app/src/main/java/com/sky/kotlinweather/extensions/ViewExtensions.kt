@@ -1,4 +1,4 @@
-package com.sky.kotlinweather.domain
+package com.sky.kotlinweather.extensions
 
 import android.content.Context
 import android.view.View

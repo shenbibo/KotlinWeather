@@ -1,4 +1,4 @@
-package com.sky.kotlinweather.domain
+package com.sky.kotlinweather.data.db
 
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
