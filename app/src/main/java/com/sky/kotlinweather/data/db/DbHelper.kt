@@ -12,6 +12,7 @@ import org.jetbrains.anko.db.*
  */
 class WeatherDbHelper(ctx: Context = App.instance)
     : ManagedSQLiteOpenHelper(ctx, DB_NAME, null, VERSION) {
+
     companion object {
         val DB_NAME = "weather.db"
         val VERSION = 1

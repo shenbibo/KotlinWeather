@@ -8,3 +8,11 @@ package com.sky.kotlinweather.extensions
 
 fun<K, V : Any> Map<K, V?>.toVarargsArray() :Array<out Pair<K, V>> =
         map { Pair(it.key, it.value!!) }.toTypedArray()
+
+inline fun<T, R : Any> Iterable<T>.firstOrThrow(predicate : (T) -> R?) : R{
+    forEach {
+        val result = predicate(it)
+        if(result != null) return result
+    }
+    throw NoSuchElementException("no element matching the predicate was found")
+}

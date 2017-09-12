@@ -2,7 +2,12 @@
 
 buildscript {
     ext.kotlin_version = '1.1.4-3'
-    ext.anko_version = "0.10.1"
+    // 注意此处要是使用0.10.1版本在sqlTypes 这里有个BUG INTEGER + PRIMARY_KEY + AUTOINCREMENT相加不正确
+    //    override fun plus(m: SqlTypeModifier): SqlType {
+    //        return SqlTypeImpl(name, if (modifiers == null) m.modifier else "$modifiers $m")
+    //    }
+    // 注意上面转换会出错$m 直接调用的是m.toString(), 应该使用${m.modifier}
+    ext.anko_version = "0.10.0"
     ext.support_version = "26.0.0-alpha1"
     repositories {
         jcenter()
