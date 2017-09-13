@@ -10,12 +10,13 @@ import com.sky.kotlinweather.extensions.firstOrThrow
  * Created by sky on 2017/9/12.
  */
 class WeatherProvider(private val sources: List<WeatherDataSource> = SOURCES)
-    : WeatherDataSource{
-
+    : WeatherDataSource {
     companion object {
         val SOURCES = listOf(WeatherDb(), WeatherServer())
     }
 
+    override fun requestDetailByDate(cityId: String, date: String): DayWeather?
+            = sources.firstOrThrow { it.requestDetailByDate(cityId, date) }
 
     override fun requestCityWeatherByCityName(cityName: String): CityWeatherList?
             = sources.firstOrThrow { it.requestCityWeatherByCityName(cityName) }

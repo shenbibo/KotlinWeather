@@ -8,8 +8,10 @@ import com.sky.kotlinweather.domain.GetCityWeatherCommand
 import com.sky.slog.LogcatTree
 import com.sky.slog.Slog
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.city_weather_item.*
 import kotlinx.android.synthetic.main.city_weather_item.view.*
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 import org.jetbrains.anko.uiThread
 
@@ -25,17 +27,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun initListener() {
-        searchButton.setOnClickListener{
+        searchButton.setOnClickListener {
             requestCityWeather(searchTextView.text.toString())
         }
     }
 
-    private fun requestCityWeather(name : String) {
+    private fun requestCityWeather(name: String) {
         doAsync {
             val weatherList = GetCityWeatherCommand(name).execute()
             uiThread {
-                cityWeatherList.adapter = WeatherListAdapter(weatherList.dayWeather) {
-                    toast(it.date.text.toString())
+                cityWeatherList.adapter = WeatherListAdapter(weatherList.dayWeather) { _, (date) ->
+                    startActivity<DetailActivity>(DetailActivity.CITY_ID to weatherList.id,
+                                                  DetailActivity.CITY_NAME to weatherList.cityName,
+                                                  DetailActivity.DATE to date)
+
                 }
                 cityWeatherList.adapter.notifyDataSetChanged()
             }

@@ -6,5 +6,6 @@ package com.sky.kotlinweather.domain
  * Created by sky on 2017/9/12.
  */
 interface WeatherDataSource {
-    fun requestCityWeatherByCityName(cityName:String): CityWeatherList?
+    fun requestCityWeatherByCityName(cityName: String): CityWeatherList?
+    fun requestDetailByDate(cityId: String, date: String): DayWeather?
 }

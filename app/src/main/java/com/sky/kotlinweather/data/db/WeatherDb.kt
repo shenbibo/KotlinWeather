@@ -3,6 +3,7 @@ package com.sky.kotlinweather.data.db
 import com.antonioleiva.weatherapp.extensions.parseList
 import com.antonioleiva.weatherapp.extensions.parseOpt
 import com.sky.kotlinweather.domain.CityWeatherList
+import com.sky.kotlinweather.domain.DayWeather
 import com.sky.kotlinweather.domain.WeatherDataSource
 import com.sky.kotlinweather.extensions.toVarargsArray
 import org.jetbrains.anko.db.insert
@@ -15,6 +16,17 @@ import org.jetbrains.anko.db.select
  */
 class WeatherDb(private val dbHelper: WeatherDbHelper = WeatherDbHelper.instance,
                 private val dataMapper: DbDataMapper = DbDataMapper) : WeatherDataSource {
+
+    override fun requestDetailByDate(cityId: String, date: String): DayWeather? = dbHelper.use {
+        val selectDate = "${DayWeatherTable.CITY_ID} = ? AND ${DayWeatherTable.DATE} = ?"
+        val tempDayWeatherPo = select(DayWeatherTable.NAME)
+                .whereSimple(selectDate, cityId, date)
+                .parseOpt {
+                    DayWeatherPo(HashMap(it))
+                } ?: return@use null
+
+        dataMapper.convertDayToDomain(tempDayWeatherPo)
+    }
 
     override fun requestCityWeatherByCityName(cityName: String): CityWeatherList? = dbHelper.use {
         val selectCity = "${CityInfoTable.CITY_NAME} = ?"

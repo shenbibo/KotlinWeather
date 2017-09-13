@@ -3,6 +3,7 @@ package com.sky.kotlinweather.data.server
 import com.google.gson.Gson
 import com.sky.kotlinweather.data.db.WeatherDb
 import com.sky.kotlinweather.domain.CityWeatherList
+import com.sky.kotlinweather.domain.DayWeather
 import com.sky.kotlinweather.domain.WeatherDataSource
 import com.sky.slog.Slog
 import java.net.URL
@@ -14,6 +15,9 @@ import java.net.URL
  */
 class WeatherServer(private val dataMapper: ServerDataMapper = ServerDataMapper,
                     private val weatherDb: WeatherDb = WeatherDb()) : WeatherDataSource {
+
+    override fun requestDetailByDate(cityId: String, date: String): DayWeather?
+            = throw UnsupportedOperationException()
 
     override fun requestCityWeatherByCityName(cityName: String): CityWeatherList? {
         val jsonCityWeather = URL("$BASE_URL_FREE$WEATHER_METHOD?city=$cityName&key=$KEY").readText()

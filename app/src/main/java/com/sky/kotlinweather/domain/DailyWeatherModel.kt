@@ -1,5 +1,8 @@
 package com.sky.kotlinweather.domain
 
+import com.sky.kotlinweather.R.id.cityName
+import com.sky.kotlinweather.R.id.date
+
 /**
  * 一句话描述类的作用
  * 详述类的功能。
@@ -27,7 +30,16 @@ class GetCityWeatherCommand(private val cityName: String,
                             private val provider: WeatherProvider = WeatherProvider()) : Command<CityWeatherList> {
     override fun execute(): CityWeatherList {
         val cityWeatherList = provider.requestCityWeatherByCityName(cityName)
-        return cityWeatherList?:throw NoSuchElementException("no matching weather matching for the $cityName")
+        return cityWeatherList ?: throw NoSuchElementException("no matching weather matching for the $cityName")
     }
 
+}
+
+class GetWeatherDetailCommand(private val cityId: String,
+                       private val date: String,
+                       private val provider: WeatherProvider = WeatherProvider()) : Command<DayWeather> {
+    override fun execute(): DayWeather {
+        val dayWeather = provider.requestDetailByDate(cityId, date)
+        return dayWeather ?: throw NoSuchElementException("no matching weather matching for the $cityId and $date")
+    }
 }

@@ -26,7 +26,7 @@ object DbDataMapper {
                 CityWeatherList(id, cityName, country, dayWeatherList)
             }
 
-    private fun convertDayToDomain(dayWeatherPo: DayWeatherPo): DayWeather = with(dayWeatherPo) {
+    fun convertDayToDomain(dayWeatherPo: DayWeatherPo): DayWeather = with(dayWeatherPo) {
         DayWeather(date, maxTmp, minTmp, desDaytime, desNight)
     }
 

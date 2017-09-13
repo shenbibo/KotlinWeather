@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.city_weather_item.view.*
  * Created by sky on 2017/9/6.
  */
 
-class WeatherListAdapter(private val items: List<DayWeather>, private val itemClick: (View) -> Unit)
+class WeatherListAdapter(private val items: List<DayWeather>, private val itemClick: (View, DayWeather) -> Unit)
     : RecyclerView.Adapter<WeatherListAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -31,7 +31,7 @@ class WeatherListAdapter(private val items: List<DayWeather>, private val itemCl
 
     override fun getItemCount(): Int = items.size
 
-    class ViewHolder(view: View, private val itemClick: (View) -> Unit) : RecyclerView.ViewHolder(view) {
+    class ViewHolder(view: View, private val itemClick: (View, DayWeather) -> Unit) : RecyclerView.ViewHolder(view) {
 
         fun bindDataToView(cityWeather: DayWeather) {
             with(cityWeather) {
@@ -40,7 +40,7 @@ class WeatherListAdapter(private val items: List<DayWeather>, private val itemCl
                 itemView.nightWeather.text = desNight
                 itemView.maxTemperature.text = "${maxTmp}º"
                 itemView.minTemperature.text = "${minTmp}º"
-                itemView.setOnClickListener { itemClick(it) }
+                itemView.setOnClickListener { itemClick(it, cityWeather) }
                 val daytimeIconUrl = WeatherIcon.ICON_URL[desDaytime]
                 val nightIconUrl = WeatherIcon.ICON_URL[desNight]
                 if (daytimeIconUrl != null) {
