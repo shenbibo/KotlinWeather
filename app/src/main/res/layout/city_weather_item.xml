@@ -1,30 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/parent"
     android:layout_width="match_parent"
-    android:layout_height="70dp"
+    android:layout_height="wrap_content"
     android:padding="8dp"
-    tools:context="com.sky.kotlinweather.ui.MainActivity">
+    android:orientation="vertical"
+    tools:context="com.sky.kotlinweather.ui.MainActivity"
+    android:weightSum="3">
 
     <LinearLayout
         android:id="@+id/cityInfo"
-        android:layout_width="100dp"
-        android:layout_height="0dp"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_weight="1"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="@id/parent"
-        app:layout_constraintLeft_toLeftOf="@id/parent"
-        app:layout_constraintTop_toTopOf="@id/parent"
-        android:layout_marginLeft="8dp">
+        android:paddingLeft="8dp">
 
         <TextView
             android:id="@+id/date"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:gravity="center_vertical"
-            android:maxLines="1"/>
+            android:maxLines="1"
+            android:textSize="30sp"/>
 
         <TextView
             android:id="@+id/cityName"
@@ -36,67 +37,75 @@
 
     <LinearLayout
         android:id="@+id/tempContainer"
-        android:layout_width="60dp"
-        android:layout_height="wrap_content"
+        android:layout_width="120dp"
+        android:layout_height="100dp"
+        android:layout_weight="1"
         android:layout_gravity="center_vertical"
         android:orientation="vertical"
-        android:paddingLeft="8dp"
-        app:layout_constraintBottom_toBottomOf="@id/parent"
-        app:layout_constraintLeft_toRightOf="@id/cityInfo"
-        app:layout_constraintTop_toTopOf="@id/parent">
+        android:layout_below="@id/cityInfo"
+        android:paddingLeft="30dp">
 
         <TextView
             android:id="@+id/maxTemperature"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="50dp"
+            android:textSize="30sp"
+            android:text="27"
+            android:gravity="center_vertical"/>
 
         <TextView
             android:id="@+id/minTemperature"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="50dp"
+            android:textSize="30sp"
+            android:text="32"
+            android:gravity="center_vertical"/>
     </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/cloudContainer"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_weight="1"
         android:layout_gravity="center_vertical"
         android:orientation="vertical"
-        android:paddingLeft="8dp"
-        app:layout_constraintBottom_toBottomOf="@id/parent"
-        app:layout_constraintLeft_toRightOf="@id/tempContainer"
-        app:layout_constraintTop_toTopOf="@id/parent">
+        android:layout_toRightOf="@id/tempContainer"
+        android:layout_alignTop="@id/tempContainer"
+        android:layout_marginLeft="50dp">
 
         <TextView
             android:id="@+id/daytimeWeather"
-            android:layout_width="60dp"
-            android:layout_height="24dp"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
             android:gravity="center_vertical"
-            android:text="134"/>
+            android:text="134"
+            android:textSize="30sp"
+            android:maxLines="1"/>
 
         <ImageView
             android:id="@+id/daytimeIcon"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="60dp"
+            android:layout_height="50dp"
             android:layout_marginLeft="8dp"
             android:layout_toRightOf="@id/daytimeWeather"/>
 
         <TextView
             android:id="@+id/nightWeather"
-            android:layout_width="60dp"
-            android:layout_height="24dp"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
             android:layout_below="@id/daytimeWeather"
-            android:layout_marginTop="4dp"
             android:gravity="center_vertical"
-            android:text="456"/>
+            android:text="456"
+            android:textSize="30sp"
+            android:maxLines="1"/>
 
         <ImageView
             android:id="@+id/nightIcon"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
+            android:layout_width="60dp"
+            android:layout_height="50dp"
             android:layout_alignTop="@id/nightWeather"
             android:layout_marginLeft="8dp"
             android:layout_toRightOf="@id/nightWeather"/>
     </RelativeLayout>
 
-</android.support.constraint.ConstraintLayout>
+</RelativeLayout>
