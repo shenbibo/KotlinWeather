@@ -25,9 +25,13 @@ class MainActivity : AppCompatActivity(), ToolbarManager {
         Slog.init(LogcatTree()).simpleMode(true)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        cityWeatherList.layoutManager = LinearLayoutManager(this)
-
+        initViews()
         initListener()
+    }
+
+    private fun initViews(){
+        initToolbar()
+        cityWeatherList.layoutManager = LinearLayoutManager(this)
     }
 
     private fun initListener() {

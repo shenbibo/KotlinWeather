@@ -19,30 +19,60 @@ class WeatherDb(private val dbHelper: WeatherDbHelper = WeatherDbHelper.instance
 
     override fun requestDetailByDate(cityId: String, date: String): DayWeather? = dbHelper.use {
         val selectDate = "${DayWeatherTable.CITY_ID} = ? AND ${DayWeatherTable.DATE} = ?"
+
+        // 方式一
+//        val tempDayWeatherPo = select(DayWeatherTable.NAME)
+//                .whereSimple(selectDate, cityId, date)
+//                .parseOpt {
+//                    DayWeatherPo(HashMap(it))
+//                } ?: return@use null
+//
+//        dataMapper.convertDayToDomain(tempDayWeatherPo)
+
+        // 方式2
         val tempDayWeatherPo = select(DayWeatherTable.NAME)
                 .whereSimple(selectDate, cityId, date)
                 .parseOpt {
                     DayWeatherPo(HashMap(it))
-                } ?: return@use null
+                }
 
-        dataMapper.convertDayToDomain(tempDayWeatherPo)
+        // 为空则返回null
+        tempDayWeatherPo?.let { dataMapper.convertDayToDomain(tempDayWeatherPo) }
     }
 
     override fun requestCityWeatherByCityName(cityName: String): CityWeatherList? = dbHelper.use {
         val selectCity = "${CityInfoTable.CITY_NAME} = ?"
+        // 方式一
+//        val tempCityWeatherPo = select(CityInfoTable.NAME)
+//                .whereSimple(selectCity, cityName)
+//                .parseOpt {
+//                    CityWeatherPo(HashMap(it), arrayListOf())
+//                } ?: return@use null
+//
+//        val selectDayWeather = "${DayWeatherTable.CITY_ID} = ?"
+//        val dayWeatherPoList = select(DayWeatherTable.NAME)
+//                .whereSimple(selectDayWeather, tempCityWeatherPo.id)
+//                .parseList { DayWeatherPo(HashMap(it)) }
+//
+//        val cityWeatherPo = tempCityWeatherPo.copy(dayWeatherPo = dayWeatherPoList)
+//        dataMapper.convertToDomain(cityWeatherPo)
+
+        // 方式2
         val tempCityWeatherPo = select(CityInfoTable.NAME)
                 .whereSimple(selectCity, cityName)
                 .parseOpt {
                     CityWeatherPo(HashMap(it), arrayListOf())
-                } ?: return@use null
+                }
 
         val selectDayWeather = "${DayWeatherTable.CITY_ID} = ?"
-        val dayWeatherPoList = select(DayWeatherTable.NAME)
-                .whereSimple(selectDayWeather, tempCityWeatherPo.id)
-                .parseList { DayWeatherPo(HashMap(it)) }
+        tempCityWeatherPo?.let {
+            val dayWeatherPoList = select(DayWeatherTable.NAME)
+                    .whereSimple(selectDayWeather, tempCityWeatherPo.id)
+                    .parseList { DayWeatherPo(HashMap(it)) }
 
-        val cityWeatherPo = tempCityWeatherPo.copy(dayWeatherPo = dayWeatherPoList)
-        dataMapper.convertToDomain(cityWeatherPo)
+            val cityWeatherPo = tempCityWeatherPo.copy(dayWeatherPo = dayWeatherPoList)
+            dataMapper.convertToDomain(cityWeatherPo)
+        }
     }
 
     fun saveCityWeather(cityWeatherList: CityWeatherList) = dbHelper.use {

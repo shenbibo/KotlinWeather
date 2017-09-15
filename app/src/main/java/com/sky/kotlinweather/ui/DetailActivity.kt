@@ -2,21 +2,28 @@ package com.sky.kotlinweather.ui
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.widget.Toolbar
 import android.widget.TextView
 
 import com.sky.kotlinweather.R
+import com.sky.kotlinweather.R.id.*
 import com.sky.kotlinweather.data.WeatherIcon
+import com.sky.kotlinweather.data.db.CityInfoTable.CITY_NAME
+import com.sky.kotlinweather.data.db.DayWeatherTable.CITY_ID
 import com.sky.kotlinweather.domain.DayWeather
 import com.sky.kotlinweather.domain.GetWeatherDetailCommand
 import com.sky.kotlinweather.extensions.color
 import com.sky.kotlinweather.extensions.textColor
+import com.sky.kotlinweather.ui.interfaces.ToolbarManager
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.city_weather_item.*
 import org.jetbrains.anko.ctx
 import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.find
 import org.jetbrains.anko.uiThread
 
-class DetailActivity : AppCompatActivity() {
+class DetailActivity : AppCompatActivity(),ToolbarManager{
+    override val toolbar: Toolbar by lazy { find<Toolbar>(R.id.toolbar) }
 
     companion object {
         val CITY_ID = "cityId"
@@ -30,9 +37,12 @@ class DetailActivity : AppCompatActivity() {
         val city = intent.getStringExtra(CITY_NAME)
         val date = intent.getStringExtra(DATE)
         val id = intent.getStringExtra(CITY_ID)
-        supportActionBar?.subtitle = "$city $date"
+        initToolbar()
+        toolbarTitle = city
+        enableHomeAsUp { onBackPressed() }
         requestDetail(id, date)
     }
+
 
     private fun requestDetail(cityId: String, date: String) {
         doAsync {

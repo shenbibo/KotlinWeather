@@ -27,10 +27,10 @@ interface ToolbarManager {
             toolbar.title = value
         }
 
-    fun initToolbar(){
+    fun initToolbar() {
         toolbar.inflateMenu(R.menu.menu_main)
         toolbar.setOnMenuItemClickListener {
-            when(it.itemId){
+            when (it.itemId) {
                 R.id.actionSettings -> App.instance.toast("setting clicked")
                 else -> App.instance.toast("unknow operate")
             }
@@ -41,23 +41,27 @@ interface ToolbarManager {
     /**
      * 设置oolbarbar图标和点击事件
      * */
-    fun enableHomeAsUp(up:(View) ->Unit){
+    fun enableHomeAsUp(up: (View) -> Unit) {
         toolbar.navigationIcon = createArrowIcon()
         toolbar.setNavigationOnClickListener { up(it) }
     }
 
-    private fun createArrowIcon() = with(DrawerArrowDrawable(toolbar.ctx)){
-        progress = 1f
-        this
-    }
+    // 方式一
+//    private fun createArrowIcon() = with(DrawerArrowDrawable(toolbar.ctx)){
+//        progress = 1f
+//        this
+//    }
+
+    // 方式2使用apply
+    private fun createArrowIcon() = DrawerArrowDrawable(toolbar.ctx).apply { progress = 1f }
 
     /**
      * 设置滑动时的动画效果
      * */
-    fun attachToScroll(recyclerView: RecyclerView){
-        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener(){
+    fun attachToScroll(recyclerView: RecyclerView) {
+        recyclerView.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
-                if(dy > 0) toolbar.slideExit() else toolbar.slideEnter()
+                if (dy > 0) toolbar.slideExit() else toolbar.slideEnter()
             }
         })
     }
