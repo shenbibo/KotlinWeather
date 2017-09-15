@@ -1,6 +1,8 @@
 package com.sky.kotlinweather.base
 
 import android.app.Application
+import com.sky.kotlinweather.extensions.DelegatesExt
+import com.sky.kotlinweather.extensions.SetValueSingleNotNull
 import kotlin.properties.Delegates
 import kotlin.properties.ReadWriteProperty
 import kotlin.reflect.KProperty
@@ -13,7 +15,7 @@ import kotlin.reflect.KProperty
 class App : Application() {
 
     companion object {
-        var instance: App by SetValueSingleNotNull()
+        var instance: App by DelegatesExt.notNullSingleValue()
             private set   // 设置为私有不允许设置
     }
 
@@ -22,20 +24,6 @@ class App : Application() {
         instance = this
     }
 }
-
-// 自定义委托，不允许重复设置值
-class SetValueSingleNotNull<T> : ReadWriteProperty<Any?, T> {
-    private var value: T? = null
-
-    override fun getValue(thisRef: Any?, property: KProperty<*>): T =
-            value ?: throw IllegalStateException("must be init first before get")
-
-    override fun setValue(thisRef: Any?, property: KProperty<*>, value: T) {
-        this.value = if (this.value == null) value
-        else throw IllegalStateException("${property.name} already initialized")
-    }
-}
-
 
 // 使用单例来申明一个全局的对象
 object App2 : Application() {

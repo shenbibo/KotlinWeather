@@ -11,6 +11,8 @@ import com.sky.kotlinweather.base.App
 import com.sky.kotlinweather.extensions.ctx
 import com.sky.kotlinweather.extensions.slideEnter
 import com.sky.kotlinweather.extensions.slideExit
+import com.sky.kotlinweather.ui.SettingActivity
+import org.jetbrains.anko.startActivity
 import org.jetbrains.anko.toast
 
 /**
@@ -31,7 +33,7 @@ interface ToolbarManager {
         toolbar.inflateMenu(R.menu.menu_main)
         toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
-                R.id.actionSettings -> App.instance.toast("setting clicked")
+                R.id.actionSettings -> toolbar.ctx.startActivity<SettingActivity>()
                 else -> App.instance.toast("unknow operate")
             }
             true

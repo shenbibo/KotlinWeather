@@ -8,7 +8,9 @@ import android.support.v7.widget.Toolbar
 import android.view.View
 import com.sky.kotlinweather.R
 import com.sky.kotlinweather.R.id.*
+import com.sky.kotlinweather.base.App
 import com.sky.kotlinweather.domain.GetCityWeatherCommand
+import com.sky.kotlinweather.extensions.DelegatesExt
 import com.sky.kotlinweather.ui.interfaces.ToolbarManager
 import com.sky.slog.LogcatTree
 import com.sky.slog.Slog
@@ -21,6 +23,10 @@ class MainActivity : AppCompatActivity(), ToolbarManager {
 
     override val toolbar by lazy { find<Toolbar>(R.id.toolbar) }
 
+    private val cityName: String by DelegatesExt.preference(App.instance,
+                                                            SettingActivity.CITY_NAME,
+                                                            SettingActivity.DEFAULT_CITY)
+
     override fun onCreate(savedInstanceState: Bundle?) {
         Slog.init(LogcatTree()).simpleMode(true)
         super.onCreate(savedInstanceState)
@@ -29,7 +35,12 @@ class MainActivity : AppCompatActivity(), ToolbarManager {
         initListener()
     }
 
-    private fun initViews(){
+    override fun onResume() {
+        super.onResume()
+        requestCityWeather(cityName)
+    }
+
+    private fun initViews() {
         initToolbar()
         cityWeatherList.layoutManager = LinearLayoutManager(this)
     }
