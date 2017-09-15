@@ -1,15 +1,11 @@
 package com.sky.kotlinweather.ui
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.widget.TextView
-
 import com.sky.kotlinweather.R
-import com.sky.kotlinweather.R.id.*
 import com.sky.kotlinweather.data.WeatherIcon
-import com.sky.kotlinweather.data.db.CityInfoTable.CITY_NAME
-import com.sky.kotlinweather.data.db.DayWeatherTable.CITY_ID
 import com.sky.kotlinweather.domain.DayWeather
 import com.sky.kotlinweather.domain.GetWeatherDetailCommand
 import com.sky.kotlinweather.extensions.color
@@ -17,12 +13,13 @@ import com.sky.kotlinweather.extensions.textColor
 import com.sky.kotlinweather.ui.interfaces.ToolbarManager
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.city_weather_item.*
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.async
+import org.jetbrains.anko.coroutines.experimental.bg
 import org.jetbrains.anko.ctx
-import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.find
-import org.jetbrains.anko.uiThread
 
-class DetailActivity : AppCompatActivity(),ToolbarManager{
+class DetailActivity : AppCompatActivity(), ToolbarManager {
     override val toolbar: Toolbar by lazy { find<Toolbar>(R.id.toolbar) }
 
     companion object {
@@ -44,14 +41,12 @@ class DetailActivity : AppCompatActivity(),ToolbarManager{
     }
 
 
-    private fun requestDetail(cityId: String, date: String) {
-        doAsync {
-            val dayWeather = GetWeatherDetailCommand(cityId, date).execute()
-            uiThread {
-                bindToView(dayWeather)
-            }
-        }
+    @Suppress("EXPERIMENTAL_FEATURE_WARNING")
+    private fun requestDetail(cityId: String, date: String) = async(UI) {
+        val result = bg { GetWeatherDetailCommand(cityId, date).execute() }
+        bindToView(result.await())
     }
+
 
     private fun bindToView(dayWeather: DayWeather) = with(dayWeather) {
         bindDesAndIcon(desDaytime, desNight)

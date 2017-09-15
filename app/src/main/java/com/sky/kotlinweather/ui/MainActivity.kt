@@ -1,23 +1,25 @@
 package com.sky.kotlinweather.ui
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.view.View
 import com.sky.kotlinweather.R
-import com.sky.kotlinweather.R.id.*
 import com.sky.kotlinweather.base.App
+import com.sky.kotlinweather.domain.CityWeatherList
 import com.sky.kotlinweather.domain.GetCityWeatherCommand
 import com.sky.kotlinweather.extensions.DelegatesExt
 import com.sky.kotlinweather.ui.interfaces.ToolbarManager
 import com.sky.slog.LogcatTree
 import com.sky.slog.Slog
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.city_weather_item.*
-import kotlinx.android.synthetic.main.city_weather_item.view.*
-import org.jetbrains.anko.*
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.async
+import org.jetbrains.anko.coroutines.experimental.bg
+import org.jetbrains.anko.find
+import org.jetbrains.anko.startActivity
 
 class MainActivity : AppCompatActivity(), ToolbarManager {
 
@@ -63,21 +65,23 @@ class MainActivity : AppCompatActivity(), ToolbarManager {
         attachToScroll(cityWeatherList)
     }
 
-    private fun requestCityWeather(name: String) {
-        doAsync {
-            val weatherList = GetCityWeatherCommand(name).execute()
-            uiThread {
-                cityWeatherList.adapter = WeatherListAdapter(weatherList.dayWeather) { _, (date) ->
-                    startActivity<DetailActivity>(DetailActivity.CITY_ID to weatherList.id,
-                                                  DetailActivity.CITY_NAME to weatherList.cityName,
-                                                  DetailActivity.DATE to date)
+    // 使用协程这一实验性质的功能
+    @Suppress("EXPERIMENTAL_FEATURE_WARNING")
+    private fun requestCityWeather(name: String) = async(UI) {
+        val result = bg { GetCityWeatherCommand(name).execute() }
+        updateUI(result.await())
+    }
 
-                }
-                cityWeatherList.adapter.notifyDataSetChanged()
+    private fun updateUI(weatherList: CityWeatherList) {
+        cityWeatherList.adapter = WeatherListAdapter(weatherList.dayWeather) { _, (date) ->
+            startActivity<DetailActivity>(DetailActivity.CITY_ID to weatherList.id,
+                                          DetailActivity.CITY_NAME to weatherList.cityName,
+                                          DetailActivity.DATE to date)
 
-                toolbarTitle = "${weatherList.cityName} (${weatherList.country})"
-            }
         }
+        cityWeatherList.adapter.notifyDataSetChanged()
+
+        toolbarTitle = "${weatherList.cityName} (${weatherList.country})"
     }
 
 //    private fun requestCityInfo(){
