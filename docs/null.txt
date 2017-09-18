@@ -1,0 +1,28 @@
+
+
+var nullStr:String? = "abcd"
+
+nullStr.subString   // 无法编译，必须要使用安全的"?"符号表示先判空
+
+nullStr?.subString  
+等于java的
+if(nullStr != null){
+	nullStr.subString(0, 2)
+}
+
+// 使用elvis操作符(?:)，对空进行操作：
+
+var str2 = nullStr?.subString(0,2) ?: ""
+
+// 不可空对象
+var notNullableStr = "abcd"
+
+notNullableStr = nullStr  // 无法编译
+nullStr = notNullableStr  // 可以编译
+
+NPE 的唯一可能的原因四种原因：
+
+1、显式调用 throw NullPointerException()
+2、使用了下文描述的 !! 操作符
+3、外部 Java 代码导致的
+4、对于初始化，有一些数据不一致（如一个未初始化的 this 用于构造函数的某个地方）
