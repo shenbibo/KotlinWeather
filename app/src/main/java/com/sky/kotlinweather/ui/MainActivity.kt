@@ -11,6 +11,7 @@ import com.sky.kotlinweather.base.App
 import com.sky.kotlinweather.domain.CityWeatherList
 import com.sky.kotlinweather.domain.GetCityWeatherCommand
 import com.sky.kotlinweather.extensions.DelegatesExt
+import com.sky.kotlinweather.extensions.toast
 import com.sky.kotlinweather.ui.interfaces.ToolbarManager
 import com.sky.slog.LogcatTree
 import com.sky.slog.Slog
@@ -82,6 +83,14 @@ class MainActivity : AppCompatActivity(), ToolbarManager {
         cityWeatherList.adapter.notifyDataSetChanged()
 
         toolbarTitle = "${weatherList.cityName} (${weatherList.country})"
+
+        val view = View(this)
+        with(view){
+            isClickable = false  // view.setClickable(false)
+            isFocusable = true   // view.setFocusable(true)
+            val getWidth = width
+        }
+
     }
 
 //    private fun requestCityInfo(){

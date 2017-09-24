@@ -95,3 +95,28 @@ val(name, age) = user
 val name = user.compent1()  // 实际就是调用user.getName()
 val age = user.compent2()   // 实际就是调用user.getAge()
 
+view.setOnClickListener{ toast("kotlin click v = $it") }
+
+// java中
+view.setOnClickListener(new OnClickListener(){
+    @Override
+    public onClick(View v){
+        longToast(MainActivity.this, "java click v = " + v);
+    }
+});
+
+// kotlin中
+view.setOnClickListener{ toast("kotlin click v = $it") }
+
+val ints: List<Int> = ArrayList()
+
+ints.filter(fun(item): Boolean = item > 0)
+// 当然对于编译器可以自动推断返回值类型的也可以省略
+ints.filter(fun(item) = item > 0)
+
+val view = View(this)
+with(view){
+    isClickable = false  // view.setClickable(false)
+    isFocusable = true   // view.setFocusable(true)
+    val getWidth = width
+}
