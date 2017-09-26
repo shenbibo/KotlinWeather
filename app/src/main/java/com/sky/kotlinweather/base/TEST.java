@@ -1,20 +1,15 @@
-class test {
-    public static shortToast(Context context, String msg){
-        Toast.makeText(context, make, Toast.LENGTH_SHORT).show();
-    }
+package com.sky.kotlinweather.base;
 
-    public static longToast(Context context, String msg){
-        Toast.makeText(context, make, Toast.LENGTH_LONG).show();
+import android.os.SystemClock;
 
-        // java中
-        view.setOnClickListener(new OnClickListener(){
-            @Override
-            public onClick(View v){
-                longToast(MainActivity.this, "java click v = " + v);
-            }
-        });
-    }
-     
+import static android.R.attr.x;
+
+/**
+ * 一句话描述类的作用
+ * 详述类的功能。
+ * Created by sky on 2017/9/26.
+ */
+public class TEST {
     interface Base {
         void print();
         void print2();
@@ -43,6 +38,6 @@ class test {
         Base baseImpl = new BaseImpl(10);
         Base testImpl = new TestImpl(baseImpl);
         testImpl.print();   // 10
-        testImpl.print2();  // TestImpl 
+        testImpl.print2();  // TestImpl
     }
 }

@@ -120,3 +120,36 @@ with(view){
     isFocusable = true   // view.setFocusable(true)
     val getWidth = width
 }
+
+interface Base {
+    fun print()
+    fun print2()
+}
+
+class BaseImpl(val x: Int) : Base {
+    override fun print() { print(x) }
+
+    override fun print2(){print(x + 2)}
+}
+
+class TestImpl(b: Base) : Base by b {
+    override fun print2() = print("testImpl")
+}
+
+fun main(args: Array<String>) {
+    val b = BaseImpl(10)
+    val test = TestImpl(b)
+    test.print()     // 输出 10
+    test.print2()    // 输出 testImpl
+}
+
+val items = listOf(1, 2, 3, 4)
+items.first() == 1
+items.last() == 4
+items.filter { it % 2 == 0 }   // 返回 [2, 4]
+items.forEach( print(it))      // 遍历所有的数组输出 1 2 3 4
+
+val rwList = mutableListOf(1, 2, 3)
+rwList.requireNoNulls()        // 返回 [1, 2, 3]
+if (rwList.none { it > 6 }) println("No items above 6")  // 输出“No items above 6”
+val item = rwList.firstOrNull()

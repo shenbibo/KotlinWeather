@@ -27,6 +27,7 @@ class App : Application() {
 
 // 使用单例来申明一个全局的对象
 object App2 : Application() {
+
     override fun onCreate() {
         super.onCreate()
     }
