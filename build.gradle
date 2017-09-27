@@ -1,7 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    ext.kotlin_version = '1.1.4-3'
+    ext.kotlin_version = '1.1.50'
     // 注意此处要是使用0.10.1版本在sqlTypes 这里有个BUG INTEGER + PRIMARY_KEY + AUTOINCREMENT相加不正确
     //    override fun plus(m: SqlTypeModifier): SqlType {
     //        return SqlTypeImpl(name, if (modifiers == null) m.modifier else "$modifiers $m")

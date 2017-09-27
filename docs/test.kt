@@ -77,14 +77,8 @@ toast("hello kotlin")
 activity.toast("hello fragment", Toast.LENGTH_SHORT)
 
 // 扩展属性
-val ViewGroup.children: List<View>
-    get() {
-        val childes: MutableList<View> = ArrayList()
-        for (i in 0 until childCount){
-            childes[i] = getChildAt(i)
-        }
-        return childes
-    }
+val ViewGroup.children: Iterable<View>
+    get() = (0 until childCount).map { getChildAt(it) }
 
 data class User(var name: String, var age: Int)
 
@@ -153,3 +147,77 @@ val rwList = mutableListOf(1, 2, 3)
 rwList.requireNoNulls()        // 返回 [1, 2, 3]
 if (rwList.none { it > 6 }) println("No items above 6")  // 输出“No items above 6”
 val item = rwList.firstOrNull()
+
+val max = if (a > b) a else b
+fun max(a: Int, b: Int) = if (a > b) a else b
+
+
+fun whenTest(x: Any) = when(x){
+    0,1 -> x
+    in 2..10 -> x.toString() + 10
+    !in 11..30 -> print("$x is not in 11..30")
+    is String -> print(x.length)
+    is TextView -> x.text.toString()
+    !is Long -> print("$x is not a Long")
+    else -> false
+}
+
+while (x > 0) {
+    x--
+}
+
+do {
+  val y = retrieveData()
+} while (y != null) // y 在此处可见
+
+for (item in collection) print(item)
+
+// 使用下标访问list与数组
+var list:List<Int> = ArrayList()
+for (index in list.indices) print(list.get(index))
+
+// .. 表示的是是rangeTo函数，返回的是一个 *Range 对象
+for (i in 1..4) print(i) // 输出“1234”
+for (i in 4..1) print(i) // 什么都不输出
+
+// 反转后迭代
+for (i in (1..4).reversed() ) print(i)  // 输出“4321”
+// 倒序迭代
+for (i in 4 downTo 1) print(i) // 输出“4321”
+
+// 指定迭代步长
+for (i in 4 downTo 1 step 2) print(i) // 输出“42”
+
+// 不包括末尾元素
+for (i in 1 until 10) print(i)   // i in [1, 10) 排除了 10
+
+if (obj is String) {
+    print(obj.length)
+}
+
+if (obj !is String) { // 与 !(obj is String) 相同
+    print("Not a String")
+}
+else {
+    print(obj.length)
+}
+
+// `||` 右侧的 x 自动转换为字符串
+if (x !is String || x.length == 0) return
+
+// `&&` 右侧的 x 自动转换为字符串
+if (x is String && x.length > 0) {
+    print(x.length) // x 自动转换为字符串
+}
+
+var str: String?
+...
+if(str != null){
+    print(str.length)
+}
+
+// 不安全的操作符
+val x: String? = y as String?
+
+// 安全不抛出异常的操作符
+val x: String? = y as? String

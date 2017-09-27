@@ -21,14 +21,8 @@ var TextView.textColor: Int
     get() = currentTextColor
     set(value) = setTextColor(value)
 
-val ViewGroup.children: List<View>
-    get() {
-        val childes: MutableList<View> = ArrayList()
-        for (i in 0 until childCount){
-            childes[i] = getChildAt(i)
-        }
-        return childes
-    }
+val ViewGroup.children: Iterable<View>
+    get() = (0 until childCount).map { getChildAt(it) }
 
 fun View.slideExit() {
     if (translationY == 0f) animate().translationY(-height.toFloat())
