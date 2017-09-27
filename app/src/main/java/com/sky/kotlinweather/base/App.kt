@@ -27,7 +27,7 @@ object App2 : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        var list:List<Int> = ArrayList()
+        var list: List<Int> = ArrayList()
         for (index in list.indices) print(list.get(index))
 
         // .. 表示的是是rangeTo函数，返回的是一个 *Range 对象
@@ -35,7 +35,7 @@ object App2 : Application() {
         for (i in 4..1) print(i) // 什么都不输出
 
         // 反转后迭代
-        for (i in (1..4).reversed() ) print(i)  // 输出“4321”
+        for (i in (1..4).reversed()) print(i)  // 输出“4321”
         // 倒序迭代
         for (i in 4 downTo 1) print(i) // 输出“4321”
 
@@ -47,12 +47,47 @@ object App2 : Application() {
     }
 }
 
-fun whenTest(x: Any) = when(x){
-    0,1 -> x
+fun whenTest(x: Any) = when (x) {
+    0, 1 -> x
     in 2..10 -> x.toString() + 10
     !in 11..30 -> print("$x is not in 11..30")
     is String -> print(x.length)
     is TextView -> x.text.toString()
     !is Long -> print("$x is not a Long")
     else -> false
+}
+
+open class Person constructor(private var name: String, age: Int) {
+    var firstName: String = name.substring(0, 2)
+
+    init {
+        println("Person init is called")
+    }
+
+    // 子类可以复写
+    open var age = age
+
+    open fun foo() {
+        println("this is person foo $name")
+    }
+}
+
+class Engineer(name: String, age: Int, private var skillList: MutableList<String>) : Person(name, age) {
+    // 工程师消耗脑力过渡，年轮+5
+    override var age = super.age + 5
+
+    // 初始化代码，使用主构造函数时，会调用
+    init {
+        println("Engineer init is called")
+    }
+
+    constructor(name: String, age: Int) : this(name, age, ArrayList()) {
+        skillList.add("java")
+        skillList.add("kotlin")
+        skillList.add("c++")
+    }
+
+    override fun foo() {
+        println("this is Engineer foo")
+    }
 }

@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar
 import android.view.View
 import com.sky.kotlinweather.R
 import com.sky.kotlinweather.base.App
+import com.sky.kotlinweather.base.Engineer
 import com.sky.kotlinweather.domain.CityWeatherList
 import com.sky.kotlinweather.domain.GetCityWeatherCommand
 import com.sky.kotlinweather.extensions.DelegatesExt
@@ -36,6 +37,7 @@ class MainActivity : AppCompatActivity(), ToolbarManager {
         setContentView(R.layout.activity_main)
         initViews()
         initListener()
+        val engineer = Engineer("sky", 27)
     }
 
     override fun onResume() {

@@ -1,9 +1,5 @@
 package com.sky.kotlinweather.base;
 
-import android.os.SystemClock;
-
-import static android.R.attr.x;
-
 /**
  * 一句话描述类的作用
  * 详述类的功能。

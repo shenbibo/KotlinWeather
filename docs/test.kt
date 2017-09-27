@@ -221,3 +221,63 @@ val x: String? = y as String?
 
 // 安全不抛出异常的操作符
 val x: String? = y as? String
+
+interface MyInterface {
+    // 抽象的属性， 实现类必须要复写它
+    val prop: Int 
+
+    // 带有访问器的属性，但是不能有幕后字段
+    val propertyWithImplementation: String   
+        get() = "foo"
+
+    // 类似于java8接口中的默认方法
+    fun foo() {            
+        print(prop)
+    }
+
+    fun bar()
+}
+
+class Child : MyInterface {
+    override val prop: Int = 29
+
+    override fun bar(){
+        print("the child class have bar")
+    }
+}
+
+
+open class Person constructor(private var name: String, age: Int) {
+    var firstName: String = name.substring(0, 2)
+
+    init {
+        println("Person init is called")
+    }
+
+    // 子类可以复写
+    open var age = age
+
+    open fun foo() {
+        println("this is person foo $name")
+    }
+}
+
+class Engineer(name: String, age: Int, private var skillList: MutableList<String>) : Person(name, age) {
+    // 工程师消耗脑力过渡，年轮+5
+    override var age = super.age + 5
+
+    // 初始化代码，主构造函数被调用时，会调用
+    init {
+        println("Engineer init is called")
+    }
+
+    constructor(name: String, age: Int) : this(name, age, ArrayList()) {
+        skillList.add("java")
+        skillList.add("kotlin")
+        skillList.add("c++")
+    }
+
+    override fun foo() {
+        println("this is Engineer foo")
+    }
+}
