@@ -281,3 +281,14 @@ class Engineer(name: String, age: Int, private var skillList: MutableList<String
         println("this is Engineer foo")
     }
 }
+
+var nullableStr: String? = "nullable"
+val size = nullableStr.length   // 无法编译
+
+// 两种访问方式
+// 1、先判空
+if(nullableStr != null){
+    print(nullableStr.length)
+}
+// 2、使用安全访问符"?."，如果不为
+val size = nullableStr?.length

@@ -89,5 +89,8 @@ class Engineer(name: String, age: Int, private var skillList: MutableList<String
 
     override fun foo() {
         println("this is Engineer foo")
+        var nullableStr:String? = "123"
+        val size = nullableStr?.length
+        print(size)
     }
 }
