@@ -290,5 +290,62 @@ val size = nullableStr.length   // 无法编译
 if(nullableStr != null){
     print(nullableStr.length)
 }
-// 2、使用安全访问符"?."，如果不为
+// 2、使用安全访问符"?."，
+// 如果不为空则返回nullableStr.length，否则返回null
 val size = nullableStr?.length
+// 同样我们还可以链式调用，其中任意为空，则返回空
+sky?.phone?.board?.contury
+
+
+var notNullStr = "notNull"
+val size = notNullStr.length
+
+notNullStr = null // 无法编译
+notNullStr = nullableStr // 无法编译
+nullableStr = notNullStr  // 可以
+
+//let只对非空对象操作
+val listWithNulls: List<String?> = listOf("A", null)
+for (item in listWithNulls) {
+     item?.let { println(it) } // 输出 A 并忽略 null
+}
+
+// 常规写法
+val l: Int = if (b != null) b.length else -1
+
+// 除了完整的 if-表达式，这还可以通过 Elvis 操作符表达，写作 ?:：
+val l = b?.length ?: -1
+
+var intValue = 3
+var longValue = 4L
+longValue = intValue // 不能编译
+longValue = intValue.toLong()
+
+var int: Int = 123
+var long: Long = 123L
+var double: Double = 1.23 // 或者 1.23e10
+
+// 更利于阅读的表达方式
+val oneMillion = 1_000_000
+val creditCardNumber = 1234_5678_9012_3456L
+val socialSecurityNumber = 999_99_9999L
+val hexBytes = 0xFF_EC_DE_5E
+val bytes = 0b11010010_01101001_10010100_10010010
+
+
+for (c in str) {
+    println(c)
+}
+
+// 转义字符串
+val s = "Hello, world!\n"
+
+// 原生字符串
+val text = """
+    for (c in "foo")
+        print(c)
+"""
+
+
+val s = "abc"
+val str = "$s.length is ${s.length}" // 求值结果为 "abc.length is 3"
